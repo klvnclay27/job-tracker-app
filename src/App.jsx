@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import JobCard from "./components/JobCard";
 
 function App() {
   const [company, setCompany] = useState("");
@@ -70,15 +71,12 @@ function App() {
       </div>
       <div className="job-list">
         {jobs.map((job, index) => (
-          <div key={index} className="job-card">
-            <h3>{job.company}</h3>
-
-            <p>{job.title}</p>
-
-            <p>Status: {job.status}</p>
-
-            <button onClick={() => handleDeleteJob(index)}>Delete</button>
-          </div>
+          <JobCard
+            key={index}
+            job={job}
+            index={index}
+            onDelete={handleDeleteJob}
+          />
         ))}
       </div>
     </div>
