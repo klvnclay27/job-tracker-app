@@ -15,6 +15,10 @@ function App() {
   }, [jobs]);
 
   const handleAddJob = () => {
+    if (company.trim() === "" || title.trim() === "") {
+      alert("Please enter a company and job title");
+      return;
+    }
     const newJob = {
       company: company,
       title: title,
@@ -27,6 +31,15 @@ function App() {
     setTitle("");
     setStatus("Applied");
   };
+
+  const handleDeleteJob = (indexToDelete) => {
+    const updateJobs = jobs.filter((job, index) => {
+      return index !== indexToDelete;
+    });
+
+    setJobs(updateJobs);
+  };
+
   return (
     <div className="app">
       <h1>Job Tracker App</h1>
@@ -46,7 +59,7 @@ function App() {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <select>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option>Applied</option>
           <option>Interview</option>
           <option>Rejected</option>
@@ -61,6 +74,10 @@ function App() {
             <h3>{job.company}</h3>
 
             <p>{job.title}</p>
+
+            <p>Status: {job.status}</p>
+
+            <button onClick={() => handleDeleteJob(index)}>Delete</button>
           </div>
         ))}
       </div>
