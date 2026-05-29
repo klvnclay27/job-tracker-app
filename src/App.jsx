@@ -61,6 +61,7 @@ function App() {
   return (
     <div className="app">
       <h1>Job Tracker App</h1>
+      <h2>Total Jobs : {jobs.length}</h2>
 
       <div className="job-form">
         <input
