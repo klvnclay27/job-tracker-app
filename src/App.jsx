@@ -5,6 +5,7 @@ function App() {
   const [company, setCompany] = useState("");
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Applied");
+  const [editingIndex, setEditingIndex] = useState(null);
   const [jobs, setJobs] = useState(() => {
     const savedJobs = localStorage.getItem("jobs");
 
@@ -26,7 +27,14 @@ function App() {
       status: status,
     };
 
-    setJobs([...jobs, newJob]);
+    if (editingIndex !== null) {
+      const updatedJobs = [...jobs];
+      updatedJobs[editingIndex] = newJob;
+      setJobs(updatedJobs);
+      setEditingIndex(null);
+    } else {
+      setJobs([...jobs, newJob]);
+    }
 
     setCompany("");
     setTitle("");
@@ -39,6 +47,13 @@ function App() {
     });
 
     setJobs(updateJobs);
+  };
+
+  const handleEditJob = (job, index) => {
+    setCompany(job.company);
+    setTitle(job.title);
+    setStatus(job.status);
+    setEditingIndex(index);
   };
 
   return (
@@ -76,6 +91,7 @@ function App() {
             job={job}
             index={index}
             onDelete={handleDeleteJob}
+            onEdit={handleEditJob}
           />
         ))}
       </div>
