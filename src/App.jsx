@@ -26,6 +26,8 @@ function App() {
       title: title,
       status: status,
     };
+    // This code means if you're editing a job => replace it
+    // And if you're adding a new job => create it normally
 
     if (editingIndex !== null) {
       const updatedJobs = [...jobs];
