@@ -5,6 +5,7 @@ function App() {
   const [company, setCompany] = useState("");
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Applied");
+  const [search, setSearch] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
   const [jobs, setJobs] = useState(() => {
     const savedJobs = localStorage.getItem("jobs");
@@ -58,12 +59,36 @@ function App() {
     setEditingIndex(index);
   };
 
+  const filteredJobs = jobs.filter((job) =>
+    job.company.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const appliedJobs = jobs.filter((job) => job.status === "Applied");
+
+  const interviewJobs = jobs.filter((job) => job.status === "Interview");
+
+  const rejectedJobs = jobs.filter((job) => job.status === "Rejected");
+
+  const offerJobs = jobs.filter((job) => job.status === "Offer");
+
   return (
     <div className="app">
       <h1>Job Tracker App</h1>
       <h2>Total Jobs : {jobs.length}</h2>
 
+      <p>Applied: {appliedJobs.length}</p>
+      <p>Interview: {interviewJobs.length}</p>
+      <p>Rejected : {rejectedJobs.length}</p>
+      <p>Offer : {offerJobs.length}</p>
+
       <div className="job-form">
+        <input
+          type="text"
+          placeholder="Search Jobs"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
         <input
           type="text"
           placeholder="Company Name"
@@ -88,7 +113,7 @@ function App() {
         <button onClick={handleAddJob}>Add Job</button>
       </div>
       <div className="job-list">
-        {jobs.map((job, index) => (
+        {filteredJobs.map((job, index) => (
           <JobCard
             key={index}
             job={job}
