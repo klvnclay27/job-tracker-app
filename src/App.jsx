@@ -6,6 +6,7 @@ function App() {
   const [company, setCompany] = useState("");
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Applied");
+  const [dateApplied, setDateApplied] = useState("");
   const [search, setSearch] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
   const [jobs, setJobs] = useState(() => {
@@ -27,6 +28,7 @@ function App() {
       company: company,
       title: title,
       status: status,
+      dateApplied: dateApplied,
     };
     // This code means if you're editing a job => replace it
     // And if you're adding a new job => create it normally
@@ -43,14 +45,10 @@ function App() {
     setCompany("");
     setTitle("");
     setStatus("Applied");
+    setDateApplied("");
   };
-
   const handleDeleteJob = (indexToDelete) => {
-    const updateJobs = jobs.filter((job, index) => {
-      return index !== indexToDelete;
-    });
-
-    setJobs(updateJobs);
+    setJobs(jobs.filter((job, index) => index !== indexToDelete));
   };
 
   const handleEditJob = (job, index) => {
@@ -108,6 +106,12 @@ function App() {
         />
 
         <input
+          type="date"
+          value={dateApplied}
+          onChange={(e) => setDateApplied(e.target.value)}
+        />
+
+        <input
           type="text"
           placeholder="Company Name"
           value={company}
@@ -128,21 +132,27 @@ function App() {
           <option>Offer</option>
         </select>
 
-        <button onClick={handleAddJob}>Add Job</button>
+        <button onClick={handleAddJob}>
+          {editingIndex !== null ? "Update Job" : "Add Job"}
+        </button>
       </div>
       <div className="job-list">
-        {filteredJobs.map((job, index) => (
-          <JobCard
-            key={index}
-            job={job}
-            index={index}
-            onDelete={handleDeleteJob}
-            onEdit={handleEditJob}
-          />
-        ))}
+        +-{" "}
+        {filteredJobs.length === 0 ? (
+          <p>No jobs found. Add your first job application.</p>
+        ) : (
+          filteredJobs.map((job, index) => (
+            <JobCard
+              key={index}
+              job={job}
+              index={index}
+              onDelete={handleDeleteJob}
+              onEdit={handleEditJob}
+            />
+          ))
+        )}
       </div>
     </div>
   );
 }
-
 export default App;
