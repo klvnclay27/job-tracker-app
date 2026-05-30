@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import JobCard from "./components/JobCard";
+import "./App.css";
 
 function App() {
   const [company, setCompany] = useState("");
@@ -76,10 +77,27 @@ function App() {
       <h1>Job Tracker App</h1>
       <h2>Total Jobs : {jobs.length}</h2>
 
-      <p>Applied: {appliedJobs.length}</p>
-      <p>Interview: {interviewJobs.length}</p>
-      <p>Rejected : {rejectedJobs.length}</p>
-      <p>Offer : {offerJobs.length}</p>
+      <div className="stats-container">
+        <div className="stat-card applied-card">
+          <h3>Applied</h3>
+          <p>{appliedJobs.length}</p>
+        </div>
+
+        <div className="stat-card interview-card">
+          <h3>Interview</h3>
+          <p>{interviewJobs.length}</p>
+        </div>
+
+        <div className="stat-card rejected-card">
+          <h3>Rejected</h3>
+          <p>{rejectedJobs.length}</p>
+        </div>
+
+        <div className="stat-card offer-card">
+          <h3>Offer</h3>
+          <p>{offerJobs.length}</p>
+        </div>
+      </div>
 
       <div className="job-form">
         <input
