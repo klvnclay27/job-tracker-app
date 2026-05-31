@@ -5,6 +5,7 @@ function JobCard({ job, onDelete, onEdit, index }) {
     <div className="job-card">
       <h3>{job.company}</h3>
       <p>{job.title}</p>
+      <p>Notes: {job.notes}</p>
       <p>Applied On: {job.dateApplied}</p>
       <p className={job.status?.toString().toLowerCase()}>
         Status: {job.status}
