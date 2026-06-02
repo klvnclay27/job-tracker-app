@@ -8,6 +8,7 @@ function App() {
   const [status, setStatus] = useState("Applied");
   const [dateApplied, setDateApplied] = useState("");
   const [notes, setNotes] = useState("");
+  const [apiJobs, setApiJobs] = useState([]);
   const [search, setSearch] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
   const [jobs, setJobs] = useState(() => {
@@ -19,6 +20,22 @@ function App() {
   useEffect(() => {
     localStorage.setItem("jobs", JSON.stringify(jobs));
   }, [jobs]);
+
+  const fetchJobs = async () => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const data = await response.json();
+
+    console.log(data);
+
+    setApiJobs(data);
+  };
+
+  useEffect(() => {
+    const loadJobs = async () => {
+      await fetchJobs();
+    };
+    loadJobs();
+  }, []);
 
   const handleAddJob = () => {
     if (company.trim() === "" || title.trim() === "") {
@@ -142,6 +159,17 @@ function App() {
         <button onClick={handleAddJob}>
           {editingIndex !== null ? "Update Job" : "Add Job"}
         </button>
+
+        <button onClick={fetchJobs}>Load API Data</button>
+
+        <div>
+          {apiJobs.map((user) => (
+            <div key={user.id} className="api-card">
+              <h3>{user.name}</h3>
+              <p>{user.email}</p>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="job-list">
         +-{" "}
