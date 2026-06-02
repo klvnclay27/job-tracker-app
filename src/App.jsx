@@ -22,12 +22,12 @@ function App() {
   }, [jobs]);
 
   const fetchJobs = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const response = await fetch("https://www.arbeitnow.com/api/job-board-api");
     const data = await response.json();
 
     console.log(data);
 
-    setApiJobs(data);
+    setApiJobs(data.data);
   };
 
   useEffect(() => {
@@ -163,10 +163,11 @@ function App() {
         <button onClick={fetchJobs}>Load API Data</button>
 
         <div>
-          {apiJobs.map((user) => (
-            <div key={user.id} className="api-card">
-              <h3>{user.name}</h3>
-              <p>{user.email}</p>
+          {apiJobs.map((job) => (
+            <div key={job.slug} className="api-card">
+              <h3>{job.title}</h3>
+              <p>{job.company_name}</p>
+              <p>{job.location}</p>
             </div>
           ))}
         </div>
