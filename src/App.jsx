@@ -8,6 +8,8 @@ function App() {
   const [status, setStatus] = useState("Applied");
   const [dateApplied, setDateApplied] = useState("");
   const [notes, setNotes] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [apiJobs, setApiJobs] = useState([]);
   const [search, setSearch] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
@@ -22,12 +24,21 @@ function App() {
   }, [jobs]);
 
   const fetchJobs = async () => {
-    const response = await fetch("https://www.arbeitnow.com/api/job-board-api");
-    const data = await response.json();
+    setLoading(true);
+    setError("");
 
-    console.log(data);
+    try {
+      const response = await fetch(
+        "https://www.arebeitnow.com/api/job-board-api",
+      );
+      const data = await response.json();
 
-    setApiJobs(data.data);
+      setApiJobs(data.data);
+    } catch {
+      setError("Failed to load jobs.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -161,6 +172,9 @@ function App() {
         </button>
 
         <button onClick={fetchJobs}>Load API Data</button>
+
+        {loading && <p>Loading jobs...</p>}
+        {error && <p>{error}</p>}
 
         <div>
           {apiJobs.map((job) => (
