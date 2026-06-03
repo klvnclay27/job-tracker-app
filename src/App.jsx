@@ -29,7 +29,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "https://www.arebeitnow.com/api/job-board-api",
+        "https://www.arbeitnow.com/api/job-board-api",
       );
       const data = await response.json();
 
@@ -173,7 +173,7 @@ function App() {
 
         <button onClick={fetchJobs}>Load API Data</button>
 
-        {loading && <p>Loading jobs...</p>}
+        {loading && <div className="spinner"></div>}
         {error && <p>{error}</p>}
 
         <div>
