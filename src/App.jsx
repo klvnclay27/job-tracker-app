@@ -41,6 +41,13 @@ function App() {
     }
   };
 
+  const filteredApiJobs = apiJobs.filter(
+    (job) =>
+      job.title.toLowerCase().includes(search.toLowerCase()) ||
+      job.company_name.toLowerCase().includes(search.toLowerCase()) ||
+      job.location.toLowerCase().includes(search.toLowerCase()),
+  );
+
   useEffect(() => {
     const loadJobs = async () => {
       await fetchJobs();
@@ -177,7 +184,7 @@ function App() {
         {error && <p>{error}</p>}
 
         <div>
-          {apiJobs.map((job) => (
+          {filteredApiJobs.map((job) => (
             <div key={job.slug} className="api-card">
               <h3>{job.title}</h3>
               <p>{job.company_name}</p>
