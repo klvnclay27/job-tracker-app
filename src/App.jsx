@@ -97,6 +97,21 @@ function App() {
     setEditingIndex(index);
   };
 
+  const handleApplyJob = (job) => {
+    console.log("Apply clicked:", job);
+
+    const newJob = {
+      company: job.company_name,
+      title: job.title,
+      status: "Applied",
+      dateApplied: new Date().toISOString().split("T")[0],
+      notes: "Added from API",
+    };
+    console.log("New job being added:", newJob);
+    setJobs((currentJobs) => [...currentJobs, newJob]);
+    console.log("Current jobs:", jobs);
+  };
+
   const filteredJobs = jobs.filter((job) =>
     job.company.toLowerCase().includes(search.toLowerCase()),
   );
@@ -189,6 +204,8 @@ function App() {
               <h3>{job.title}</h3>
               <p>{job.company_name}</p>
               <p>{job.location}</p>
+
+              <button onClick={() => handleApplyJob(job)}>Apply</button>
             </div>
           ))}
         </div>
